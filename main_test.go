@@ -1,10 +1,20 @@
 package golem
 
 import (
+	"bytes"
+	"compress/gzip"
 	"fmt"
 	"testing"
 )
 
+func TestReadBinary(t *testing.T) {
+	b, err := Asset("data/en.gz")
+	if err != nil {
+		panic(err)
+	}
+	_ = b
+	gzip.NewReader(bytes.NewBuffer(b))
+}
 func TestUsage(t *testing.T) {
 	l, err := New("english")
 	if err != nil {

@@ -2,9 +2,9 @@ package golem
 
 import (
 	"bufio"
+	"bytes"
 	"compress/gzip"
 	"fmt"
-	"os"
 	"path"
 	"strings"
 )
@@ -19,6 +19,7 @@ const folder = "data"
 // New produces a new Lemmatizer
 func New(locale string) (*Lemmatizer, error) {
 	var fname string
+
 	switch locale {
 	case "sv", "swedish":
 		fname = "sv.gz"
@@ -27,11 +28,11 @@ func New(locale string) (*Lemmatizer, error) {
 	default:
 		return nil, fmt.Errorf(`Language "%s" is not implemented`, locale)
 	}
-	f, err := os.Open(path.Join(folder, fname))
+	f, err := Asset(path.Join(folder, fname))
 	if err != nil {
 		return nil, fmt.Errorf(`Could not open resource file for "%s"`, locale)
 	}
-	r, err := gzip.NewReader(f)
+	r, err := gzip.NewReader(bytes.NewBuffer(f))
 	if err != nil {
 		return nil, fmt.Errorf(`Could not open resource file for "%s"`, locale)
 	}
@@ -52,6 +53,7 @@ func New(locale string) (*Lemmatizer, error) {
 	return &l, nil
 }
 
+// Lemma gets the base form of a word
 func (l *Lemmatizer) Lemma(word string) (string, error) {
 	if out, ok := l.m[strings.ToLower(word)]; ok {
 		return out, nil
