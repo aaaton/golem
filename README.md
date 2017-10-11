@@ -3,11 +3,12 @@ This project is a dictionary based lemmatizer written in go.
 
 ### What?
 A lemmatizer is a tool that finds the base form of words.
-|lang|input|output|
-|----|-----|------|
-|English | aligning | align |
-|Swedish | sprungit | springa |
-|French | abattaient | abattre |
+
+| Lang    | Input      | Output  |
+| ------- | ---------- | ------- |
+| English | aligning   | align   |
+| Swedish | sprungit   | springa |
+| French  | abattaient | abattre |
 
 It's based on the dictionaries found on [lexiconista.com](http://www.lexiconista.com/datasets/lemmatization/), which are available under the [Open Database License](https://opendatacommons.org/licenses/odbl/summary/). This project would not be feasible without them. 
 
