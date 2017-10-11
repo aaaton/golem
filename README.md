@@ -2,7 +2,7 @@
 This project is a dictionary based lemmatizer written in go. 
 
 ### What?
-A lemmatizer is a tool that finds the base form of words.
+A [lemmatizer](https://en.wikipedia.org/wiki/Lemmatisation) is a tool that finds the base form of words.
 
 | Lang    | Input      | Output  |
 | ------- | ---------- | ------- |
