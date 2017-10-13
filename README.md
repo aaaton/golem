@@ -1,5 +1,5 @@
 # GoLem
-This project is a dictionary based lemmatizer written in go. 
+This project is a dictionary based lemmatizer written in pure go, without external dependencies. 
 
 ### What?
 A [lemmatizer](https://en.wikipedia.org/wiki/Lemmatisation) is a tool that finds the base form of words.
@@ -16,7 +16,7 @@ It's based on the dictionaries found on [lexiconista.com](http://www.lexiconista
 At the moment I have added English, Swedish, French, Spanish & German, but adding another language should be no more trouble than getting the dictionary for that language. Some of which are already available on lexiconista. Please let me know if there is something you would like to see in here, or fork the project and create a pull request.
 
 ### Basic usage
-```go
+```golang
 package main
 
 import (
