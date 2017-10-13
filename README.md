@@ -13,7 +13,7 @@ A [lemmatizer](https://en.wikipedia.org/wiki/Lemmatisation) is a tool that finds
 It's based on the dictionaries found on [lexiconista.com](http://www.lexiconista.com/datasets/lemmatization/), which are available under the [Open Database License](https://opendatacommons.org/licenses/odbl/summary/). This project would not be feasible without them. 
 
 ### Languages
-At the moment I have added English, Swedish, French, Spanish & German, but implementing another language on should be no more trouble than getting the dictionary for that language. Some of which are already available on lexiconista. Please let me know if there is something you would like to see in here, or fork the project and create a pull request.
+At the moment I have added English, Swedish, French, Spanish & German, but adding another language should be no more trouble than getting the dictionary for that language. Some of which are already available on lexiconista. Please let me know if there is something you would like to see in here, or fork the project and create a pull request.
 
 ### Basic usage
 ```go
