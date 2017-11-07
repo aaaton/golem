@@ -13,7 +13,7 @@ import (
 
 // Lemmatizer is the key to lemmatizing a word in a language
 type Lemmatizer struct {
-	m map[string]string
+	m map[string][]string
 }
 
 const folder = "data"
@@ -39,14 +39,16 @@ func New(locale string) (*Lemmatizer, error) {
 		return nil, fmt.Errorf(`Could not open resource file for "%s"`, locale)
 	}
 
-	l := Lemmatizer{m: make(map[string]string)}
+	l := Lemmatizer{m: make(map[string][]string)}
 	br := bufio.NewReader(r)
 	line, err := br.ReadString('\n')
 	for err == nil {
 		parts := strings.Split(strings.TrimSpace(line), "\t")
 		if len(parts) == 2 {
-			l.m[strings.ToLower(parts[1])] = strings.ToLower(parts[0])
-			l.m[strings.ToLower(parts[0])] = strings.ToLower(parts[0])
+			base := strings.ToLower(parts[0])
+			form := strings.ToLower(parts[1])
+			l.m[form] = append(l.m[form], base)
+			l.m[base] = append(l.m[base], base)
 		} else {
 			fmt.Println(line, "is odd")
 		}
@@ -55,10 +57,18 @@ func New(locale string) (*Lemmatizer, error) {
 	return &l, nil
 }
 
-// Lemma gets the base form of a word
+// Lemma gets one of the base forms of a word
 func (l *Lemmatizer) Lemma(word string) (string, error) {
+	if out, ok := l.m[strings.ToLower(word)]; ok {
+		return out[0], nil
+	}
+	return "", fmt.Errorf("Word not found in dictionary")
+}
+
+// Lemmas gets all the base forms of a word
+func (l *Lemmatizer) Lemmas(word string) ([]string, error) {
 	if out, ok := l.m[strings.ToLower(word)]; ok {
 		return out, nil
 	}
-	return "", fmt.Errorf("Word not found in dictionary")
+	return nil, fmt.Errorf("Word not found in dictionary")
 }
