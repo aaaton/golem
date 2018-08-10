@@ -29,10 +29,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	word, err := lemmatizer.Lemma("Abducting")
-	if err != nil {
-		panic(err)
-	}
+	word := lemmatizer.Lemma("Abducting")
 	if word != "abduct" {
 		panic("The output is not what is expected!")
 	}
