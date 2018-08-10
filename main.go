@@ -57,18 +57,24 @@ func New(locale string) (*Lemmatizer, error) {
 	return &l, nil
 }
 
+// InDict checks if a certain word is in the dictionary
+func (l *Lemmatizer) InDict(word string) bool {
+	_, ok := l.m[strings.ToLower(word)]
+	return ok
+}
+
 // Lemma gets one of the base forms of a word
-func (l *Lemmatizer) Lemma(word string) (string, error) {
+func (l *Lemmatizer) Lemma(word string) string {
 	if out, ok := l.m[strings.ToLower(word)]; ok {
-		return out[0], nil
+		return out[0]
 	}
-	return "", fmt.Errorf("Word not found in dictionary")
+	return word
 }
 
 // Lemmas gets all the base forms of a word
-func (l *Lemmatizer) Lemmas(word string) ([]string, error) {
+func (l *Lemmatizer) Lemmas(word string) []string {
 	if out, ok := l.m[strings.ToLower(word)]; ok {
-		return out, nil
+		return out
 	}
-	return nil, fmt.Errorf("Word not found in dictionary")
+	return []string{word}
 }

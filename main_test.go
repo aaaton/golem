@@ -5,10 +5,12 @@ import (
 	"compress/gzip"
 	"fmt"
 	"testing"
+
+	"github.com/aaaton/golem/dicts"
 )
 
 func TestReadBinary(t *testing.T) {
-	b, err := Asset("data/en.gz")
+	b, err := dicts.Asset("data/en.gz")
 	if err != nil {
 		panic(err)
 	}
@@ -21,29 +23,42 @@ func TestUsage(t *testing.T) {
 		fmt.Println(err)
 	}
 	_ = l
-	word, err := l.Lemma("agreement")
-	fmt.Println(word, err)
+	word := l.Lemma("agreement")
+	fmt.Println(word)
+}
+
+func TestPrint(t *testing.T) {
+	l, err := New("sv")
+	if err != nil {
+		panic(err)
+	}
+	added := make(map[string]bool)
+	for k, v := range l.m {
+		fmt.Println(k)
+		added[k] = true
+		for _, w := range v {
+			if !added[w] {
+				fmt.Println(w)
+			}
+			added[w] = true
+		}
+	}
 }
 
 func TestLemmatizer_Lemma(t *testing.T) {
 	l, _ := New("swedish")
 	tests := []struct {
-		in      string
-		out     string
-		wantErr bool
+		in  string
+		out string
 	}{
-		{"Avtalet", "avtal", false},
-		{"avtalets", "avtal", false},
-		{"avtalens", "avtal", false},
-		{"Avtaletsadlkj", "", true},
+		{"Avtalet", "avtal"},
+		{"avtalets", "avtal"},
+		{"avtalens", "avtal"},
+		{"Avtaletsadlkj", "Avtaletsadlkj"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.in, func(t *testing.T) {
-			got, err := l.Lemma(tt.in)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("Lemmatizer.Lemma() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
+			got := l.Lemma(tt.in)
 			if got != tt.out {
 				t.Errorf("Lemmatizer.Lemma() = %v, want %v", got, tt.out)
 			}
