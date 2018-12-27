@@ -27,6 +27,12 @@ func New(locale string) (*Lemmatizer, error) {
 		fname = "sv.gz"
 	case "en", "english":
 		fname = "en.gz"
+	case "fr", "french":
+		fname = "fr.gz"
+	case "de", "german":
+		fname = "de.gz"
+	case "es", "spanish":
+		fname = "es.gz"
 	default:
 		return nil, fmt.Errorf(`Language "%s" is not implemented`, locale)
 	}

@@ -27,6 +27,36 @@ func TestUsage(t *testing.T) {
 	fmt.Println(word)
 }
 
+func TestFrenchUsage(t *testing.T) {
+	l, err := New("fr")
+	if err != nil {
+		fmt.Println(err)
+	}
+	_ = l
+	word := l.Lemma("avait")
+	fmt.Println(word)
+}
+
+func TestSpanishUsage(t *testing.T) {
+	l, err := New("es")
+	if err != nil {
+		fmt.Println(err)
+	}
+	_ = l
+	word := l.Lemma("Buenas")
+	fmt.Println(word)
+}
+
+func TestGermanUsage(t *testing.T) {
+	l, err := New("de")
+	if err != nil {
+		fmt.Println(err)
+	}
+	_ = l
+	word := l.Lemma("Hast")
+	fmt.Println(word)
+}
+
 func TestPrint(t *testing.T) {
 	l, err := New("sv")
 	if err != nil {
