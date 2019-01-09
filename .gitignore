@@ -1,1 +1,6 @@
 data
+
+# Testing and benchmarks
+*.out
+*.test
+pprof
