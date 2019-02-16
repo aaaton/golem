@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/charlesgiroux/golem/dicts"
+	"github.com/aaaton/golem/dicts"
 )
 
 func TestReadBinary(t *testing.T) {
