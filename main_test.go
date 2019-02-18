@@ -14,9 +14,64 @@ func TestReadBinary(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	_, err = gzip.NewReader(bytes.NewBuffer(b))
+  _, err = gzip.NewReader(bytes.NewBuffer(b))
+  if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestUsage(t *testing.T) {
+	l, err := New("english")
 	if err != nil {
 		t.Fatal(err)
+	}
+	word := l.Lemma("agreed")
+	fmt.Println(word)
+	result := "agree"
+	if word != result {
+		t.Errorf("Wanted %s, got %s.", result, word)
+	}
+}
+
+func TestFrenchUsage(t *testing.T) {
+	l, err := New("fr")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	word := l.Lemma("avait")
+	fmt.Println(word)
+	result := "avoir"
+	if word != result {
+		t.Errorf("Wanted %s, got %s.", result, word)
+	}
+}
+
+func TestSpanishUsage(t *testing.T) {
+	l, err := New("es")
+	if err != nil {
+		fmt.Println(err)
+	}
+	_ = l
+	word := l.Lemma("Buenas")
+	fmt.Println(word)
+	result := "bueno"
+	if word != result {
+		t.Errorf("Wanted %s, got %s.", result, word)
+	}
+}
+
+func TestGermanUsage(t *testing.T) {
+	l, err := New("de")
+	if err != nil {
+		fmt.Println(err)
+	}
+	_ = l
+	word := l.Lemma("Hast")
+	fmt.Println(word)
+	result := "haben"
+	if word != result {
+		t.Errorf("Wanted %s, got %s.", result, word)
 	}
 }
 
