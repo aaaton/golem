@@ -77,6 +77,14 @@ func (l *Lemmatizer) Lemma(word string) string {
 	return word
 }
 
+// LemmaLower gets one of the base forms of a lower case word
+func (l *Lemmatizer) LemmaLower(word string) string {
+	if out, ok := l.m[word]; ok {
+		return out[0]
+	}
+	return word
+}
+
 // Lemmas gets all the base forms of a word
 func (l *Lemmatizer) Lemmas(word string) []string {
 	if out, ok := l.m[strings.ToLower(word)]; ok {

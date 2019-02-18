@@ -3,7 +3,7 @@ package golem
 import (
 	"bytes"
 	"compress/gzip"
-	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/aaaton/golem/dicts"
@@ -12,18 +12,19 @@ import (
 func TestReadBinary(t *testing.T) {
 	b, err := dicts.Asset("data/en.gz")
 	if err != nil {
-		panic(err)
+		t.Fatal(err)
 	}
-	_ = b
-	gzip.NewReader(bytes.NewBuffer(b))
+  _, err = gzip.NewReader(bytes.NewBuffer(b))
+  if err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestUsage(t *testing.T) {
 	l, err := New("english")
 	if err != nil {
-		fmt.Println(err)
+		t.Fatal(err)
 	}
-	_ = l
 	word := l.Lemma("agreed")
 	fmt.Println(word)
 	result := "agree"
@@ -74,26 +75,11 @@ func TestGermanUsage(t *testing.T) {
 	}
 }
 
-func TestPrint(t *testing.T) {
-	l, err := New("sv")
-	if err != nil {
-		panic(err)
-	}
-	added := make(map[string]bool)
-	for k, v := range l.m {
-		fmt.Println(k)
-		added[k] = true
-		for _, w := range v {
-			if !added[w] {
-				fmt.Println(w)
-			}
-			added[w] = true
-		}
-	}
-}
-
 func TestLemmatizer_Lemma(t *testing.T) {
-	l, _ := New("swedish")
+	l, err := New("swedish")
+	if err != nil {
+		t.Fatal(err)
+	}
 	tests := []struct {
 		in  string
 		out string
@@ -109,19 +95,32 @@ func TestLemmatizer_Lemma(t *testing.T) {
 			if got != tt.out {
 				t.Errorf("Lemmatizer.Lemma() = %v, want %v", got, tt.out)
 			}
+			got = l.LemmaLower(strings.ToLower(tt.in))
+			if got != strings.ToLower(tt.out) {
+				t.Errorf("Lemmatizer.LemmaLower() = %v, want %v", got, tt.out)
+			}
 		})
 	}
 }
 
-func BenchmarkNew(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		New("swedish")
+func BenchmarkLookup(b *testing.B) {
+	l, err := New("swedish")
+	if err != nil {
+		b.Error(err)
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N/2; i++ {
+		l.Lemma("Avtalet")
 	}
 }
 
-func BenchmarkLookup(b *testing.B) {
-	l, _ := New("swedish")
-	for i := 0; i < b.N; i++ {
-		l.Lemma("Avtalet")
+func BenchmarkLookupLower(b *testing.B) {
+	l, err := New("swedish")
+	if err != nil {
+		b.Error(err)
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N/2; i++ {
+		l.LemmaLower("avtalet")
 	}
 }
