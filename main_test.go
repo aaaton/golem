@@ -3,6 +3,7 @@ package golem
 import (
 	"bytes"
 	"compress/gzip"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -14,8 +15,8 @@ func TestReadBinary(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-  _, err = gzip.NewReader(bytes.NewBuffer(b))
-  if err != nil {
+	_, err = gzip.NewReader(bytes.NewBuffer(b))
+	if err != nil {
 		t.Fatal(err)
 	}
 }
