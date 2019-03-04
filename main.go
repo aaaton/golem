@@ -8,7 +8,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/aaaton/golem/dicts"
+	"github.com/axamon/golem/dicts"
 )
 
 // Lemmatizer is the key to lemmatizing a word in a language
