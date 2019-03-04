@@ -3,7 +3,7 @@
 // data/it.gz
 // DO NOT EDIT!
 
-package main
+package dicts
 
 import (
 	"bytes"
