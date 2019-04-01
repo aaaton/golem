@@ -33,6 +33,8 @@ func New(locale string) (*Lemmatizer, error) {
 		fname = "de.gz"
 	case "es", "spanish":
 		fname = "es.gz"
+	case "it", "italian":
+		fname = "it.gz"
 	default:
 		return nil, fmt.Errorf(`Language "%s" is not implemented`, locale)
 	}

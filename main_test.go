@@ -21,6 +21,17 @@ func TestReadBinary(t *testing.T) {
 	}
 }
 
+func TestReadBinary_IT(t *testing.T) {
+	b, err := dicts.Asset("data/it.gz")
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = gzip.NewReader(bytes.NewBuffer(b))
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestUsage(t *testing.T) {
 	l, err := New("english")
 	if err != nil {
