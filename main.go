@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/aaaton/golem/dicts"
+	it "github.com/axamon/golem/dicts/IT"
 )
 
 // Lemmatizer is the key to lemmatizing a word in a language
@@ -38,7 +39,17 @@ func New(locale string) (*Lemmatizer, error) {
 	default:
 		return nil, fmt.Errorf(`Language "%s" is not implemented`, locale)
 	}
-	f, err := dicts.Asset(path.Join(folder, fname))
+
+	var f []byte
+	var err error
+
+	switch fname {
+	case "it.gz":
+		f, err = it.Asset(path.Join(folder, fname))
+	default:
+		f, err = dicts.Asset(path.Join(folder, fname))
+	}
+
 	if err != nil {
 		return nil, fmt.Errorf(`Could not open resource file for "%s"`, locale)
 	}
