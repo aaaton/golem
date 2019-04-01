@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/aaaton/golem/dicts"
+	"github.com/axamon/golem/dicts"
 )
 
 func TestReadBinary(t *testing.T) {
@@ -22,7 +22,7 @@ func TestReadBinary(t *testing.T) {
 }
 
 func TestReadBinary_IT(t *testing.T) {
-	b, err := dicts.Asset("data/it.gz")
+	b, err := dicts.Asset("IT/dataIT/it.gz")
 	if err != nil {
 		t.Fatal(err)
 	}
