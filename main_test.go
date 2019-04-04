@@ -7,18 +7,45 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/aaaton/golem/dicts"
 	it "github.com/axamon/golem/dicts/IT"
 )
 
-func TestReadBinary(t *testing.T) {
-	b, err := dicts.Asset("data/en.gz")
-	if err != nil {
-		t.Fatal(err)
-	}
-	_, err = gzip.NewReader(bytes.NewBuffer(b))
-	if err != nil {
-		t.Fatal(err)
+var flagtests = []struct {
+	name     string
+	language string
+	in       string
+	out      string
+}{
+	{"Italian Verb", "italian", "lavorerai", "lavorare"},
+	{"Italian Plural Noun", "italian", "bicchieri", "bicchiere"},
+	{"Italian FirstName", "italian", "Alberto", "Alberto"},
+	{"Italian Plural Adjective", "italian", "lunghi", "lungo"},
+	{"Swedish Example1", "swedish", "Avtalet", "avtal"},
+	{"Swedish Example2", "swedish", "avtalets", "avtal"},
+	{"Swedish Example3", "swedish", "avtalens", "avtal"},
+	{"Swedish Example4", "swedish", "Avtaletsadlkj", "Avtaletsadlkj"},
+	{"English Verb", "english", "goes", "go"},
+	{"English Noun", "english", "wolves", "wolf"},
+	{"English FirstName", "english", "Edward", "Edward"},
+}
+
+func TestLemmatizer_Lemma_All(t *testing.T) {
+
+	for _, tt := range flagtests {
+		t.Run(tt.in, func(t *testing.T) {
+			l, err := New(tt.language)
+			if err != nil {
+				t.Fatal(err)
+			}
+			got := l.Lemma(tt.in)
+			if got != tt.out {
+				t.Errorf("%s Lemmatizer.Lemma() = %v, want %v", tt.name, got, tt.out)
+			}
+			got = l.LemmaLower(strings.ToLower(tt.in))
+			if got != strings.ToLower(tt.out) {
+				t.Errorf("%s Lemmatizer.LemmaLower() = %v, want %v", tt.name, got, tt.out)
+			}
+		})
 	}
 }
 
