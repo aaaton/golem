@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"compress/gzip"
 	"fmt"
+	"log"
 	"strings"
+	"sync"
 	"testing"
 
 	it "github.com/axamon/golem/dicts/IT"
@@ -27,26 +29,40 @@ var flagtests = []struct {
 	{"English Verb", "english", "goes", "go"},
 	{"English Noun", "english", "wolves", "wolf"},
 	{"English FirstName", "english", "Edward", "Edward"},
+	{"French Example1", "french", "avait", "avoir"},
+	{"Spanish Example1", "spanish", "Buenas", "bueno"},
+	{"German Example1", "german", "Hast", "haben"},
 }
 
 func TestLemmatizer_Lemma_All(t *testing.T) {
-
+	var wg sync.WaitGroup
 	for _, tt := range flagtests {
 		t.Run(tt.in, func(t *testing.T) {
+			wg.Add(1)
+			defer wg.Done()
 			l, err := New(tt.language)
 			if err != nil {
 				t.Fatal(err)
 			}
+			//go func() {
+
+			//lock.Lock()
 			got := l.Lemma(tt.in)
 			if got != tt.out {
 				t.Errorf("%s Lemmatizer.Lemma() = %v, want %v", tt.name, got, tt.out)
 			}
+			//lock.Unlock()
+			//lock.Lock()
 			got = l.LemmaLower(strings.ToLower(tt.in))
 			if got != strings.ToLower(tt.out) {
 				t.Errorf("%s Lemmatizer.LemmaLower() = %v, want %v", tt.name, got, tt.out)
 			}
+			//lock.Unlock()
+			//runtime.Gosched()
+			//}()
 		})
 	}
+	wg.Wait()
 }
 
 func TestReadBinary_IT(t *testing.T) {
@@ -60,87 +76,79 @@ func TestReadBinary_IT(t *testing.T) {
 	}
 }
 
-func TestUsage(t *testing.T) {
-	l, err := New("english")
-	if err != nil {
-		t.Fatal(err)
-	}
-	word := l.Lemma("agreed")
-	fmt.Println(word)
-	result := "agree"
-	if word != result {
-		t.Errorf("Wanted %s, got %s.", result, word)
-	}
+var exampleDataLemma = []struct {
+	language string
+	word     string
+}{
+	{"english", "agreed"},
+	{"italian", "armadi"},
+	{"swedish", "Avtalet"},
 }
 
-func TestFrenchUsage(t *testing.T) {
-	l, err := New("fr")
-	if err != nil {
-		fmt.Println(err)
+func ExampleLemmatizer_Lemma() {
+	for _, element := range exampleDataLemma {
+		l, err := New(element.language)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(l.Lemma(element.word))
 	}
-
-	word := l.Lemma("avait")
-	fmt.Println(word)
-	result := "avoir"
-	if word != result {
-		t.Errorf("Wanted %s, got %s.", result, word)
-	}
+	// Output:
+	// agree
+	// armadio
+	// avtal
 }
 
-func TestSpanishUsage(t *testing.T) {
-	l, err := New("es")
-	if err != nil {
-		fmt.Println(err)
-	}
-	_ = l
-	word := l.Lemma("Buenas")
-	fmt.Println(word)
-	result := "bueno"
-	if word != result {
-		t.Errorf("Wanted %s, got %s.", result, word)
-	}
+var exampleDataInDict = []struct {
+	language string
+	word     string
+	result   bool
+}{
+	{"italian", "armadio", true},
+	{"italian", "ammaccabanane", false},
+	{"swedish", "Avtalet", true},
+	{"swedish", "Avtalt", false},
 }
 
-func TestGermanUsage(t *testing.T) {
-	l, err := New("de")
-	if err != nil {
-		fmt.Println(err)
+func ExampleLemmatizer_InDict() {
+	for _, element := range exampleDataInDict {
+		l, err := New(element.language)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(l.InDict(element.word))
 	}
-	_ = l
-	word := l.Lemma("Hast")
-	fmt.Println(word)
-	result := "haben"
-	if word != result {
-		t.Errorf("Wanted %s, got %s.", result, word)
-	}
+	// Output:
+	// true
+	// false
+	// true
+	// false
 }
 
-func TestLemmatizer_Lemma(t *testing.T) {
-	l, err := New("swedish")
-	if err != nil {
-		t.Fatal(err)
+var exampleDataLemmas = []struct {
+	language string
+	word     string
+	result   []string
+}{
+	{"italian", "soli", []string{"sole", "solo"}},
+}
+
+func ExampleLemmatizer_Lemmas() {
+	for _, element := range exampleDataLemmas {
+		l, err := New(element.language)
+		if err != nil {
+			log.Fatal(err)
+		}
+		lemmas := l.Lemmas(element.word)
+		for _, lemma := range lemmas {
+			fmt.Println(lemma)
+		}
 	}
-	tests := []struct {
-		in  string
-		out string
-	}{
-		{"Avtalet", "avtal"},
-		{"avtalets", "avtal"},
-		{"avtalens", "avtal"},
-		{"Avtaletsadlkj", "Avtaletsadlkj"},
-	}
-	for _, tt := range tests {
-		t.Run(tt.in, func(t *testing.T) {
-			got := l.Lemma(tt.in)
-			if got != tt.out {
-				t.Errorf("Lemmatizer.Lemma() = %v, want %v", got, tt.out)
-			}
-			got = l.LemmaLower(strings.ToLower(tt.in))
-			if got != strings.ToLower(tt.out) {
-				t.Errorf("Lemmatizer.LemmaLower() = %v, want %v", got, tt.out)
-			}
-		})
-	}
+	// Unordered output:
+	// solare
+	// solere
+	// solo
+	// sole
 }
 
 func BenchmarkLookup(b *testing.B) {
