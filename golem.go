@@ -19,6 +19,13 @@ type Lemmatizer struct {
 
 const folder = "data"
 
+// NewVoid produces a void Lemmatizer
+func NewVoid() (*Lemmatizer, error) {
+	l := Lemmatizer{m: make(map[string][]string)}
+	return &l, nil
+
+}
+
 // New produces a new Lemmatizer
 func New(locale string) (*Lemmatizer, error) {
 	var fname string
@@ -84,7 +91,8 @@ func (l *Lemmatizer) InDict(word string) bool {
 
 // Lemma gets one of the base forms of a word
 func (l *Lemmatizer) Lemma(word string) string {
-	if out, ok := l.m[strings.ToLower(word)]; ok {
+	loweredword := strings.ToLower(word)
+	if out, ok := l.m[loweredword]; ok {
 		return out[0]
 	}
 	return word
