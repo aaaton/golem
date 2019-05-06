@@ -83,7 +83,7 @@ func dataEn() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "data/en", size: 808137, mode: os.FileMode(420), modTime: time.Unix(1556893940, 0)}
+	info := bindataFileInfo{name: "data/en", size: 808137, mode: os.FileMode(420), modTime: time.Unix(1557129847, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

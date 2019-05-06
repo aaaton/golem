@@ -1,7 +1,7 @@
 SHELL:=/bin/bash
-default: download-all
+default: all
 LANG=en
-download-all:
+all:
 	go get -u github.com/jteeuwen/go-bindata/...
 	mkdir -p data
 	$(MAKE) en
