@@ -4,3 +4,4 @@ data
 *.out
 *.test
 pprof
+.DS_Store

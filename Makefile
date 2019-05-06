@@ -1,16 +1,16 @@
 SHELL:=/bin/bash
-default: download-all
+default: all
 LANG=en
-download-all:
+all:
+	go get -u github.com/jteeuwen/go-bindata/...
 	mkdir -p data
 	$(MAKE) en
 	$(MAKE) sv
 	$(MAKE) fr
 	$(MAKE) es
 	$(MAKE) de
-	rm data/*.zip
-	go get -u github.com/jteeuwen/go-bindata/...
-	go-bindata -o data.go -nocompress data/
+	$(MAKE) it
+	
 
 en: LANG=en
 en: download
@@ -27,11 +27,13 @@ es: download
 de: LANG=de
 de: download
 
+it: LANG=it
+it: download
+
 download:
-	curl http://www.lexiconista.com/Datasets/lemmatization-$(LANG).zip > data/$(LANG).zip
-	unzip data/$(LANG).zip -d data
-	mv data/lemmatization-$(LANG).txt data/$(LANG)
-	gzip data/$(LANG)
+	curl https://raw.githubusercontent.com/michmech/lemmatization-lists/master/lemmatization-$(LANG).txt > data/$(LANG)
+	go-bindata -o dicts/$(LANG)/$(LANG).go -pkg $(LANG) data/$(LANG)
+	go run dicts/cmd/generate_pack.go -locale $(LANG) > dicts/$(LANG)/pack.go
 
 benchcmp:
 	# ensure no govenor weirdness
