@@ -4,6 +4,10 @@ github.com/aaaton/Ahocorasick v0.0.0-20190527212411-790dd7b7de13 h1:fHu7TJBpBxrh
 github.com/aaaton/Ahocorasick v0.0.0-20190527212411-790dd7b7de13/go.mod h1:p1+Bt8ffVVtUygZ/NDXCjbxjFU/yfFIJyJwWbjhN7Ac=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/derekparker/trie v0.0.0-20190322172448-1ce4922c7ad9 h1:aSaTVlEXc2QKl4fzXU1tMYCjlrSc2mA4DZtiVfckQHo=
+github.com/derekparker/trie v0.0.0-20190322172448-1ce4922c7ad9/go.mod h1:D6ICZm05D9VN1n/8iOtBxLpXtoGp6HDFUJ1RNVieOSE=
+github.com/dghubble/trie v0.0.0-20190512033633-6d8e3fa705df h1:WRQekGjYIb3oD1ofBVwBa7+0S+2XtUCefOiFCow9/Cw=
+github.com/dghubble/trie v0.0.0-20190512033633-6d8e3fa705df/go.mod h1:P5ymVhkUtwRIkYn2IuBeuVezlrsshMKWQJymph3GOp8=
 github.com/golang/protobuf v1.3.1 h1:YF8+flBXS5eO826T4nzqPrxfhQThhXl0YzfuUPu4SBg=
 github.com/golang/protobuf v1.3.1/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/google/btree v1.0.0 h1:0udJVsspx3VBr5FwtLhQQtuAsVc79tTq0ocGIPAU6qo=
