@@ -12,7 +12,7 @@ import (
 
 type localStorage struct {
 	Cedar       *ahocorasick.Cedar
-	Words       []string
+	Words       [][]string
 	indexLookup map[string]int
 }
 
@@ -30,7 +30,7 @@ func main() {
 		panic(err)
 	}
 
-	ls := &localStorage{Cedar: ahocorasick.NewCedar(), Words: []string{}, indexLookup: make(map[string]int)}
+	ls := &localStorage{Cedar: ahocorasick.NewCedar(), Words: [][]string{}, indexLookup: make(map[string]int)}
 	// cedar := ahocorasick.NewCedar()
 	for _, line := range strings.Split(string(b), "\n") {
 		parts := strings.Split(strings.TrimSpace(line), "\t")
@@ -59,41 +59,46 @@ func main() {
 	fmt.Println("Saved to", outName, "and all is good")
 	// words := []string{"spelled", "spld", "splendid", "use", "used"}
 	// for _, w := range words {
-	// 	v, err := cedar.Get([]byte(w))
+	// 	v, err := ls.Cedar.Get([]byte(w))
+	// 	words := ls.Words[v.(int)]
 	// 	if err != nil {
 	// 		fmt.Println("Couldn't find", w)
 	// 	} else {
-	// 		fmt.Println("Found", v, "for", w)
+	// 		fmt.Println("Found", words, "for", w)
 	// 	}
 	// }
 	// cedar.Insert(key []byte, value interface{})
 }
 
 func insert(ls *localStorage, key []byte, value string) {
-	index, ok := ls.indexLookup[value]
-	if !ok {
-		ls.indexLookup[value] = len(ls.Words)
-		ls.Words = append(ls.Words, value)
-	}
 	v, err := ls.Cedar.Get(key)
-	var indexes []int
+	var words []string
 	if err != nil {
-		indexes = []int{index}
+		words = []string{value}
 	} else { // key exists
-		indexes = v.([]int)
-		if !contains(indexes, index) {
-			indexes = append(indexes, index)
+		values := ls.Words[v.(int)]
+		if !contains(values, value) {
+			words = append(values, value)
+			// insert = append(values, value)
+		} else {
+			words = values
 		}
 	}
-	err = ls.Cedar.Insert(key, indexes)
+
+	lookup := strings.Join(words, "|")
+	if _, ok := ls.indexLookup[lookup]; !ok {
+		ls.indexLookup[lookup] = len(ls.Words)
+		ls.Words = append(ls.Words, words)
+	}
+	err = ls.Cedar.Insert(key, ls.indexLookup[lookup])
 	if err != nil {
 		panic(err)
 	}
 }
 
-func contains(indexes []int, index int) bool {
-	for _, v := range indexes {
-		if v == index {
+func contains(values []string, value string) bool {
+	for _, v := range values {
+		if v == value {
 			return true
 		}
 	}
