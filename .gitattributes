@@ -1,0 +1,6 @@
+dicts/it/data.go filter=lfs diff=lfs merge=lfs -text
+dicts/sv/data.go filter=lfs diff=lfs merge=lfs -text
+dicts/de/data.go filter=lfs diff=lfs merge=lfs -text
+dicts/en/data.go filter=lfs diff=lfs merge=lfs -text
+dicts/es/data.go filter=lfs diff=lfs merge=lfs -text
+dicts/fr/data.go filter=lfs diff=lfs merge=lfs -text

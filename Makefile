@@ -2,38 +2,40 @@ SHELL:=/bin/bash
 default: all
 LANG=en
 all:
-	go get -u github.com/jteeuwen/go-bindata/...
+	# go get -u github.com/jteeuwen/go-bindata/...
 	mkdir -p data
-	$(MAKE) en
-	$(MAKE) sv
-	$(MAKE) fr
-	$(MAKE) es
-	$(MAKE) de
-	$(MAKE) it
+	$(MAKE) en sv fr es de it
+
+package-all:
+	$(MAKE) LANG=en package
+	$(MAKE) LANG=sv package
+	$(MAKE) LANG=fr package
+	$(MAKE) LANG=es package
+	$(MAKE) LANG=de package
+	$(MAKE) LANG=it package
 	
-
-en: LANG=en
-en: download
-
-sv: LANG=sv
-sv: download
-
-fr: LANG=fr
-fr: download
-
-es: LANG=es
-es: download
-
-de: LANG=de
-de: download
-
-it: LANG=it
-it: download
+en: 
+	$(MAKE) LANG=en download package
+sv:  
+	$(MAKE) LANG=sv download package
+fr:  
+	$(MAKE) LANG=fr download package
+es:  
+	$(MAKE) LANG=es download package
+de:  
+	$(MAKE) LANG=de download package
+it:  
+	$(MAKE) LANG=it download package
 
 download:
 	curl https://raw.githubusercontent.com/michmech/lemmatization-lists/master/lemmatization-$(LANG).txt > data/$(LANG)
-	go-bindata -o dicts/$(LANG)/$(LANG).go -pkg $(LANG) data/$(LANG)
-	go run dicts/cmd/generate_pack.go -locale $(LANG) > dicts/$(LANG)/pack.go
+
+package:
+	# Packaging $(LANG)
+	go run dicts/cmd/gobify/gobify.go data/$(LANG) data/$(LANG).gob
+	go-bindata -o dicts/$(LANG)/data.go -pkg $(LANG) data/$(LANG).gob
+	go run dicts/cmd/genpack/genpack.go -locale $(LANG) > dicts/$(LANG)/pack.go
+	# ----------------
 
 benchcmp:
 	# ensure no govenor weirdness

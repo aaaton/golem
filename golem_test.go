@@ -13,7 +13,7 @@ import (
 )
 
 func TestEnglishUsage(t *testing.T) {
-	l, err := New(en.NewPackage())
+	l, err := New(en.New())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -26,7 +26,7 @@ func TestEnglishUsage(t *testing.T) {
 }
 
 func TestFrenchUsage(t *testing.T) {
-	l, err := New(fr.NewPackage())
+	l, err := New(fr.New())
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -40,7 +40,7 @@ func TestFrenchUsage(t *testing.T) {
 }
 
 func TestSpanishUsage(t *testing.T) {
-	l, err := New(es.NewPackage())
+	l, err := New(es.New())
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -54,7 +54,7 @@ func TestSpanishUsage(t *testing.T) {
 }
 
 func TestGermanUsage(t *testing.T) {
-	l, err := New(de.NewPackage())
+	l, err := New(de.New())
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -68,7 +68,7 @@ func TestGermanUsage(t *testing.T) {
 }
 
 func TestLemmatizer_Lemma(t *testing.T) {
-	l, err := New(sv.NewPackage())
+	l, err := New(sv.New())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -96,7 +96,7 @@ func TestLemmatizer_Lemma(t *testing.T) {
 }
 
 func BenchmarkLookup(b *testing.B) {
-	l, err := New(sv.NewPackage())
+	l, err := New(sv.New())
 	if err != nil {
 		b.Error(err)
 	}
@@ -107,7 +107,7 @@ func BenchmarkLookup(b *testing.B) {
 }
 
 func BenchmarkLookupLower(b *testing.B) {
-	l, err := New(sv.NewPackage())
+	l, err := New(sv.New())
 	if err != nil {
 		b.Error(err)
 	}
