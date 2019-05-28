@@ -1,5 +1,6 @@
 data
-
+vendor
+.vscode
 # Testing and benchmarks
 *.out
 *.test

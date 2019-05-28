@@ -2,7 +2,7 @@ SHELL:=/bin/bash
 default: all
 LANG=en
 all:
-	go get -u github.com/jteeuwen/go-bindata/...
+	# go get -u github.com/jteeuwen/go-bindata/...
 	mkdir -p data
 	$(MAKE) en
 	$(MAKE) sv
@@ -14,25 +14,34 @@ all:
 
 en: LANG=en
 en: download
+en: package
 
 sv: LANG=sv
 sv: download
+sv: package
 
 fr: LANG=fr
 fr: download
+fr: package
 
 es: LANG=es
 es: download
+es: package
 
 de: LANG=de
 de: download
+de: package
 
 it: LANG=it
 it: download
+it: package
 
 download:
 	curl https://raw.githubusercontent.com/michmech/lemmatization-lists/master/lemmatization-$(LANG).txt > data/$(LANG)
-	go-bindata -o dicts/$(LANG)/$(LANG).go -pkg $(LANG) data/$(LANG)
+
+package:
+	go run dicts/cmd/cedar/cedar_creator.go data/$(LANG) data/$(LANG).gob
+	go-bindata -o dicts/$(LANG)/$(LANG).go -pkg $(LANG) data/$(LANG).gob
 	go run dicts/cmd/generate_pack.go -locale $(LANG) > dicts/$(LANG)/pack.go
 
 benchcmp:
