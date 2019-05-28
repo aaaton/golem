@@ -1,0 +1,6 @@
+github.com/BobuSumisu/go-ahocorasick v0.0.0-20170307172857-945e4fd57aad h1:aa1R84xzLk7ubqnAcURKE5sTh1DFYSAPn49yPMWPvsc=
+github.com/BobuSumisu/go-ahocorasick v0.0.0-20170307172857-945e4fd57aad/go.mod h1:XVGRVb0ir1AYrWL3gZQslUcHpGiuv9IgjqPqwOfvtDc=
+github.com/aaaton/Ahocorasick v0.0.0-20190527212411-790dd7b7de13 h1:fHu7TJBpBxrh+Rb/r4rSuEhOW2Oz5xbRgxPhKUZt1EE=
+github.com/aaaton/Ahocorasick v0.0.0-20190527212411-790dd7b7de13/go.mod h1:p1+Bt8ffVVtUygZ/NDXCjbxjFU/yfFIJyJwWbjhN7Ac=
+github.com/iohub/Ahocorasick v0.0.0-20180515092143-9c34010b2b7e h1:xXwSKwzKK/r30natv+24cnHcyj7LD5vrmdemFS06vsU=
+github.com/iohub/Ahocorasick v0.0.0-20180515092143-9c34010b2b7e/go.mod h1:8moxYaPMfqqyba59HJBOZ6f81HXL/TFznlgEpjKNCbw=

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	// ahocorasick "github.com/BobuSumisu/go-ahocorasick"
 )
 
 // Lemmatizer is the key to lemmatizing a word in a language
@@ -25,7 +26,6 @@ func New(pack LanguagePack) (*Lemmatizer, error) {
 	if err != nil {
 		return nil, fmt.Errorf(`Could not open resource file for "%s"`, pack.GetLocale())
 	}
-
 	l := Lemmatizer{m: make(map[string][]*string)}
 	pointMap := make(map[string]*string)
 	br := bufio.NewReader(bytes.NewBuffer(resource))
