@@ -1,6 +1,6 @@
 # GoLem
 
-This project is a dictionary based lemmatizer written in pure go, without external dependencies.
+This project is a dictionary based lemmatizer written in go. Requires [git lfs](https://git-lfs.github.com) for large dictionary files.
 
 ### What?
 
