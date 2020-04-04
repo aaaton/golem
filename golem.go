@@ -1,8 +1,6 @@
 package golem
 
 import (
-	"bytes"
-	"encoding/gob"
 	"fmt"
 	"sort"
 	"strings"
@@ -21,16 +19,50 @@ type storage struct {
 	Words  [][]string
 }
 
+func newStorage(b []byte) (storage, error) {
+	lines := strings.Split(string(b), "\n")
+	s := storage{
+		Lookup: make(map[string]int),
+		Words:  [][]string{},
+	}
+	// TODO: Would it be better to do with a reader
+	// instead of loading the full thing into an array?
+
+	// br := bufio.NewReader(bytes.NewReader(b))
+	// line, err := br.ReadString('\n')
+	// for err == nil {
+	// wordIndex := make(map[string])
+	for _, line := range lines {
+		if len(line) == 0 {
+			continue
+		}
+		words := strings.Split(line, "\t")
+		if len(words) < 2 {
+			return s, fmt.Errorf("expected more than 1 form per word")
+		}
+		base := words[0]
+		for _, word := range words {
+			if index, ok := s.Lookup[word]; ok {
+				s.Words[index] = append(s.Words[index], word)
+			} else {
+				index := len(s.Words)
+				s.Words = append(s.Words, []string{base})
+				s.Lookup[word] = index
+			}
+		}
+	}
+	return s, nil
+}
+
 // New produces a new Lemmatizer
 func New(pack dicts.LanguagePack) (*Lemmatizer, error) {
 	resource, err := pack.GetResource()
 	if err != nil {
 		return nil, fmt.Errorf(`Could not open resource file for "%s"`, pack.GetLocale())
 	}
-	var s storage
-	err = gob.NewDecoder(bytes.NewBuffer(resource)).Decode(&s)
+	s, err := newStorage(resource)
 	if err != nil {
-		return nil, fmt.Errorf(`language %s is not valid`, pack.GetLocale())
+		return nil, fmt.Errorf(`language %s is not valid: %s`, pack.GetLocale(), err)
 	}
 	l := Lemmatizer{m: s.Lookup, v: s.Words}
 	return &l, nil
