@@ -32,9 +32,8 @@ download:
 
 package:
 	# Packaging $(LANG)
-	go run dicts/cmd/gobify/gobify.go data/$(LANG) data/$(LANG).gob
-	go-bindata -o dicts/$(LANG)/data.go -pkg $(LANG) data/$(LANG).gob
-	go run dicts/cmd/genpack/genpack.go -locale $(LANG) > dicts/$(LANG)/pack.go
+	go run dicts/cmd/simplify/simplify.go data/$(LANG) data/$(LANG).gz
+	go run dicts/cmd/genpack/genpack.go -locale $(LANG) -path data/$(LANG).gz > dicts/$(LANG)/pack.go
 	# ----------------
 
 benchcmp:
