@@ -4,9 +4,13 @@ import (
 	"fmt"
 	"sort"
 	"strings"
-
-	"github.com/aaaton/golem/dicts"
 )
+
+// LanguagePack is what each language should implement
+type LanguagePack interface {
+	GetResource() ([]byte, error)
+	GetLocale() string
+}
 
 // Lemmatizer is the key to lemmatizing a word in a language
 type Lemmatizer struct {
@@ -55,7 +59,7 @@ func newStorage(b []byte) (storage, error) {
 }
 
 // New produces a new Lemmatizer
-func New(pack dicts.LanguagePack) (*Lemmatizer, error) {
+func New(pack LanguagePack) (*Lemmatizer, error) {
 	resource, err := pack.GetResource()
 	if err != nil {
 		return nil, fmt.Errorf(`Could not open resource file for "%s"`, pack.GetLocale())
@@ -83,6 +87,7 @@ func (l *Lemmatizer) Lemma(word string) string {
 }
 
 // LemmaLower gets one of the base forms of a lower case word
+// expects `word` to be lowercased
 func (l *Lemmatizer) LemmaLower(word string) string {
 	if out, ok := l.m[word]; ok {
 		return l.v[out][0]
@@ -90,7 +95,7 @@ func (l *Lemmatizer) LemmaLower(word string) string {
 	return word
 }
 
-// Lemmas gets all the base forms of a word
+// Lemmas gets all the base forms of a word, if multiple exist
 func (l *Lemmatizer) Lemmas(word string) (out []string) {
 	if index, ok := l.m[strings.ToLower(word)]; ok {
 		out := l.v[index]

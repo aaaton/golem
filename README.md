@@ -1,6 +1,8 @@
 # GoLem
 
-This project is a dictionary based lemmatizer written in go. Requires [git lfs](https://git-lfs.github.com) for large dictionary files.
+This project is a dictionary based lemmatizer written in go. 
+
+Since v4 all dictionaries need to be gotten individually.
 
 ### What?
 
@@ -24,8 +26,8 @@ At the moment golem supports English, Swedish, French, Spanish, Italian & German
 package main
 
 import (
-	"github.com/aaaton/golem"
-	"github.com/aaaton/golem/dicts/en"
+	"github.com/aaaton/golem/v4"
+	"github.com/aaaton/golem/v4/dicts/en"
 )
 
 func main() {
