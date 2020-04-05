@@ -1,5 +1,6 @@
-module github.com/aaaton/golem/dicts/de
+module github.com/aaaton/golem/v4/dicts/de
 
 go 1.13
 
-require github.com/aaaton/golem v3.0.3
+require github.com/aaaton/golem/v4 v4.0.0
+
