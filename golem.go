@@ -18,16 +18,11 @@ type Lemmatizer struct {
 	v [][]string
 }
 
-type storage struct {
-	Lookup map[string]int
-	Words  [][]string
-}
-
-func newStorage(b []byte) (storage, error) {
+func newLemmatizerFromBytes(b []byte) (Lemmatizer, error) {
 	lines := strings.Split(string(b), "\n")
-	s := storage{
-		Lookup: make(map[string]int),
-		Words:  [][]string{},
+	s := Lemmatizer{
+		m: make(map[string]int),
+		v: [][]string{},
 	}
 	// TODO: Would it be better to do with a reader
 	// instead of loading the full thing into an array?
@@ -46,12 +41,12 @@ func newStorage(b []byte) (storage, error) {
 		}
 		base := words[0]
 		for _, word := range words {
-			if index, ok := s.Lookup[word]; ok {
-				s.Words[index] = append(s.Words[index], word)
+			if index, ok := s.m[word]; ok {
+				s.v[index] = append(s.v[index], word)
 			} else {
-				index := len(s.Words)
-				s.Words = append(s.Words, []string{base})
-				s.Lookup[word] = index
+				index := len(s.v)
+				s.v = append(s.v, []string{base})
+				s.m[word] = index
 			}
 		}
 	}
@@ -64,11 +59,10 @@ func New(pack LanguagePack) (*Lemmatizer, error) {
 	if err != nil {
 		return nil, fmt.Errorf(`Could not open resource file for "%s"`, pack.GetLocale())
 	}
-	s, err := newStorage(resource)
+	l, err := newLemmatizerFromBytes(resource)
 	if err != nil {
 		return nil, fmt.Errorf(`language %s is not valid: %s`, pack.GetLocale(), err)
 	}
-	l := Lemmatizer{m: s.Lookup, v: s.Words}
 	return &l, nil
 }
 
