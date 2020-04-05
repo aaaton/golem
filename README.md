@@ -4,6 +4,11 @@ This project is a dictionary based lemmatizer written in go.
 
 Since v4 all dictionaries need to be gotten individually.
 
+```
+go get github.com/aaaton/golem/v4
+```
+
+
 ### What?
 
 A [lemmatizer](https://en.wikipedia.org/wiki/Lemmatisation) is a tool that finds the base form of words.
@@ -19,6 +24,36 @@ It's based on the dictionaries found on [michmech/lemmatization-lists](https://g
 ### Languages
 
 At the moment golem supports English, Swedish, French, Spanish, Italian & German, but adding another language should be no more trouble than getting the dictionary for that language. Some of which are already available on lexiconista. Please let me know if there is something you would like to see in here, or fork the project and create a pull request.
+
+English
+```
+go get github.com/aaaton/golem/v4/dicts/en
+```
+
+Swedish
+```
+go get github.com/aaaton/golem/v4/dicts/sv
+```
+
+French
+```
+go get github.com/aaaton/golem/v4/dicts/fr
+```
+
+German
+```
+go get github.com/aaaton/golem/v4/dicts/de
+```
+
+Spanish
+```
+go get github.com/aaaton/golem/v4/dicts/es
+```
+
+Italian
+```
+go get github.com/aaaton/golem/v4/dicts/it
+```
 
 ### Basic usage
 
