@@ -1,4 +1,4 @@
-module github.com/tggo/golem/v4/dicts/uk
+module github.com/aaaton/golem/v4/dicts/uk
 
 go 1.13
 

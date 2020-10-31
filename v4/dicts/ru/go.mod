@@ -1,4 +1,4 @@
-module github.com/tggo/golem/v4/dicts/ru
+module github.com/aaaton/golem/v4/dicts/ru
 
 go 1.13
 
