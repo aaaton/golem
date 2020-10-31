@@ -4,7 +4,7 @@ LANG=en
 all:
 	# go get -u github.com/jteeuwen/go-bindata/...
 	mkdir -p data
-	$(MAKE) en sv fr es de it
+	$(MAKE) en sv fr es de it ru uk
 
 package-all:
 	$(MAKE) LANG=en package
@@ -13,6 +13,8 @@ package-all:
 	$(MAKE) LANG=es package
 	$(MAKE) LANG=de package
 	$(MAKE) LANG=it package
+	$(MAKE) LANG=ru package
+	$(MAKE) LANG=uk package
 	
 en: 
 	$(MAKE) LANG=en download package
@@ -26,6 +28,10 @@ de:
 	$(MAKE) LANG=de download package
 it:  
 	$(MAKE) LANG=it download package
+ru:  
+	$(MAKE) LANG=ru download package
+uk:  
+	$(MAKE) LANG=uk download package
 
 download:
 	curl https://raw.githubusercontent.com/michmech/lemmatization-lists/master/lemmatization-$(LANG).txt > data/$(LANG)
