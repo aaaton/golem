@@ -18,4 +18,11 @@ func TestSpanishUsage(t *testing.T) {
 	if word != result {
 		t.Errorf("Wanted %s, got %s.", result, word)
 	}
+
+	word = l.Lemma("As")
+	result = "a"
+
+	if word != result {
+		t.Errorf("Wanted %s '%b', got %s '%b'.", result, []byte(result), word, []byte(word))
+	}
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"compress/zlib"
 	"fmt"
 	"io/ioutil"
@@ -26,6 +27,12 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
+	}
+
+	// Remove first UTF-8 Byte order mark (first 3 bytes) from dictionary files where it is used
+	if bytes.Equal(b[:3], []byte{0xEF, 0xBB, 0xBF}) {
+		fmt.Println("Removing UTF-8 BOM")
+		b = b[3:]
 	}
 
 	m := make(map[string][]string)

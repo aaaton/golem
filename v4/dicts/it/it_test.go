@@ -12,10 +12,15 @@ func TestItalian(t *testing.T) {
 		t.Fatal(err)
 	}
 	// abbarbicare	abbarbicai
+	word := lem.Lemma("abbarbicai")
 	result := "abbarbicare"
-	lemma := lem.Lemma("abbarbicai")
-	if lemma != result {
-		t.Errorf("Expected %v, but got %v", result, lemma)
+	if word != result {
+		t.Errorf("Wanted %s '%b', got %s '%b'.", result, []byte(result), word, []byte(word))
 	}
 
+	word = lem.Lemma("abati")
+	result = "abate"
+	if word != result {
+		t.Errorf("Wanted %s '%b', got %s '%b'.", result, []byte(result), word, []byte(word))
+	}
 }

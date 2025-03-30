@@ -13,10 +13,15 @@ func TestSpanishUsage(t *testing.T) {
 		fmt.Println(err)
 	}
 	_ = l
-	word := l.Lemma("Buenas")
-	fmt.Println(word)
-	result := "bueno"
+	word := l.Lemma("primer")
+	result := "1"
 	if word != result {
-		t.Errorf("Wanted %s, got %s.", result, word)
+		t.Errorf("Wanted %s '%b', got %s '%b'.", result, []byte(result), word, []byte(word))
+	}
+
+	word = l.Lemma("Buenas")
+	result = "bueno"
+	if word != result {
+		t.Errorf("Wanted %s '%b', got %s '%b'.", result, []byte(result), word, []byte(word))
 	}
 }

@@ -20,6 +20,7 @@ func TestLemmatizer_Lemma(t *testing.T) {
 		{"avtalets", "avtal"},
 		{"avtalens", "avtal"},
 		{"Avtaletsadlkj", "Avtaletsadlkj"},
+		{"A:et", "a"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.in, func(t *testing.T) {

@@ -15,6 +15,12 @@ func TestEnglishUsage(t *testing.T) {
 	// fmt.Println(word)
 	result := "agree"
 	if word != result {
-		t.Errorf("Wanted %s, got %s.", result, word)
+		t.Errorf("Wanted %s '%b', got %s '%b'.", result, []byte(result), word, []byte(word))
+	}
+
+	word = l.Lemma("first")
+	result = "1"
+	if word != result {
+		t.Errorf("Wanted %s '%b', got %s '%b'.", result, []byte(result), word, []byte(word))
 	}
 }
