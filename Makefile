@@ -38,6 +38,7 @@ download:
 
 package:
 	# Packaging $(LANG)
+	mkdir -p v4/dicts/$(LANG)
 	go run cmd/simplify/simplify.go data/$(LANG) data/$(LANG).gz
 	go run cmd/genpack/genpack.go -locale $(LANG) -path data/$(LANG).gz > v4/dicts/$(LANG)/pack.go
 	# ----------------
